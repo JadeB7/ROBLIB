@@ -1,14 +1,14 @@
 package com.ui;
 
+import com.APIs.SendEmail;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.*;
 
 public class LoginFrame extends JFrame {
     private JCheckBox showPasswordCheckBox;
@@ -99,8 +99,8 @@ public class LoginFrame extends JFrame {
         forgotPasswordLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Handle the action when the "Forgot password?" label is clicked
-                // You can open a password reset dialog or navigate to the password reset page here
+                SendEmail forgotPasswordFrame = new SendEmail(LoginFrame.this);
+                System.out.println("FORGOT");
             }
         });
         add(forgotPasswordLabel); // Add the label to the frame
@@ -160,7 +160,7 @@ public class LoginFrame extends JFrame {
 
         if (authenticateUser(username, new String(password))) {
             // Authentication successful, open the MainFrame
-            new MainFrame().setVisible(true);
+            new MainFrame(username).setVisible(true);
             dispose(); // Close the LoginFrame
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
@@ -169,12 +169,12 @@ public class LoginFrame extends JFrame {
 
     private boolean authenticateUser(String username, String password) {
         // Replace these with your database connection details.
-        String dbUrl = "jdbc:mysql://localhost:3306/roblib";
-        String dbUser = "root";
-        String dbPassword = "root";
+        String dbUrl = "jdbc:mysql://sql5.freesqldatabase.com:3306/sql5670955";
+        String dbUser = "sql5670955";
+        String dbPassword = "IWVruy5Li1";
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword)) {
-            String sql = "SELECT password FROM users WHERE username = ?";
+            String sql = "SELECT password FROM ROBLIB WHERE username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
 
