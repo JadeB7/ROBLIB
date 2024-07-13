@@ -2,18 +2,17 @@ package com.ui;
 
 import com.roblib.Database;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class NewAccountFrame extends JFrame {
 
@@ -214,22 +213,22 @@ public class NewAccountFrame extends JFrame {
     private Database db = new Database();
 
     public void getNewUser() {
-        String imgPath = "C:\\Users\\levovo l480\\Desktop\\ImagesDB\\" + usernameField.getText() + ".png";
-
-        try {
-            ImageIO.write(userImage, "png", new File(imgPath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        // Validate the birthdate format
         String birthDate = birthDateField.getText();
         if (!isValidBirthDateFormat(birthDate)) {
             JOptionPane.showMessageDialog(this, "Invalid birthdate format. Please use 'year-month-day' format.", "Invalid Format", JOptionPane.ERROR_MESSAGE);
             return; // Return early to prevent further processing
         }
 
+        // Validate other fields if needed...
+
         try {
-            db.saveUserWithExceptionHandling(usernameField.getText(), new String(passwordField.getPassword()), emailField.getText(), maleCheckBox.isSelected() ? "Male" : "Female", birthDateField.getText(), cinField.getText(), imgPath);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(userImage, "png", baos);
+            byte[] imageInByte = baos.toByteArray();
+
+            // Save the user data
+            db.saveUserWithExceptionHandling(usernameField.getText(), new String(passwordField.getPassword()), emailField.getText(), maleCheckBox.isSelected() ? "Male" : "Female", birthDateField.getText(), cinField.getText(), imageInByte);
+
             // If no exceptions are encountered, open the LoginFrame
             new LoginFrame().setVisible(true);
             dispose(); // Close the current frame

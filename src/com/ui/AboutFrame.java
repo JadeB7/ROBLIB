@@ -41,16 +41,18 @@ public class AboutFrame extends JFrame {
         add(versionLabel);
 
         // Create a JLabel for your text
-        String labelText = "<html><div style='text-align: center; font-size: 20px; width: 100%;'>Application information:<br><br>Borrowing books<br><br>Keeping track of your favorit books<br><br>Precise statistics about the trending and most borrowed books<br><br>Providing mails to keep you updated of the last versions</div></html>";
-        JLabel label = new JLabel(labelText);
+        Image img = new ImageIcon(getClass().getResource("/com/Resources/about_v1.png")).getImage();
+        img.getScaledInstance(10,10, Image.SCALE_DEFAULT);
+        JLabel label = new JLabel("ABOUT");
+        label.setIcon(new ImageIcon(img));
         label.setVerticalAlignment(JLabel.TOP);
 
         // Set the bounds to center the label
-        int labelWidth = 570; // Adjust the width as needed
-        int labelHeight = 570; // Adjust the height as needed
+        int labelWidth = 1000; // Adjust the width as needed
+        int labelHeight = 343; // Adjust the height as needed
         int x = (width - labelWidth) / 2;
         int y = (height - labelHeight) / 2;
-        label.setBounds(x, y, labelWidth, labelHeight);
+        label.setBounds(x, y-70, labelWidth, labelHeight);
 
         // Add the label to the frame
         add(label);

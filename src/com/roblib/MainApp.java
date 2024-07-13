@@ -1,5 +1,4 @@
 package com.roblib;
-
 import com.ui.LoginFrame;
 
 public class MainApp {
